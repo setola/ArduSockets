@@ -1,21 +1,27 @@
 var ws = require("websocket-server");
+//var http		= require('http');
+//var jade		= require('jade');
 
 var server = ws.createServer();
+
+var status = true;
 
 server.addListener("connection", function(connection){
 	console.log("ASD");
 	connection.addListener("message", function(msg){
+		
 		console.log(connection);
-		connection.send(msg);
+		console.log(status ? 'ON' : 'OFF');
+		connection.send(status ? 'ON' : 'OFF');
 		
-		
+		status = !status;
 	});
 	setTimeout(function() {
 		console.log("BROAD");
 		server.broadcast("Everyone welcome" +connection.id);
-	}, 1500)
+	}, 1500);
 });
-server.listen(80);
+server.listen(8080);
 /*
 var WebSocketServer = require('websocket').server;
 var http = require('http');
